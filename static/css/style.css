@@ -1,3 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    max-width: 1200px; /* Maksymalna szerokość treści */
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #f2f2f2;
+}
 .completed {
     text-decoration: line-through;
+    text-decoration-thickness: 2px;
 }

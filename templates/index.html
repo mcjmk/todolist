@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+<main>
     <h1>This is a simple todo list</h1>
     <form method="POST" action="/add">
     <label>
@@ -25,12 +26,13 @@
     </label>
     <input type="submit" value="Dodaj zadanie" />
     </form>
-    <select id="sort-option" onchange="sortTasks()">
+    <select id="sort-option">
     <option value="name">Nazwa</option>
     <option value="importance">Ważność</option>
     <option value="urgency">Pilność</option>
     <option value="priority">Priorytet</option>
     </select>
+    <button onclick="sortTasks()">Sortuj</button>
     <table>
     <thead>
         <tr>
@@ -42,7 +44,7 @@
             <th>Czas wykonania</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="tasks-list">
         {% for task in todos %}
             <tr id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}" onclick="toggleTask('{{ task.id }}')">
                 <td>{{ task['name'] }}</td>
@@ -55,7 +57,10 @@
         {% endfor %}
     </tbody>
 </table>
-
+</main>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<footer>
+    <p> made by mcjmk</p>
+</footer>
 </body>
 </html>

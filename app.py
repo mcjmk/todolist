@@ -74,15 +74,17 @@ def sort_tasks(sort_by):
     global todos
 
     if sort_by == "priority":
-        todos.sort(key=lambda x: x['priority'], reverse=True)
+        sorted_todos = sorted(todos, key=lambda x: x['priority'], reverse=True)
     elif sort_by == "name":
-        todos = sorted(todos, key=lambda x: x['name'])
+        sorted_todos = sorted(todos, key=lambda x: x['name'])
     elif sort_by == "importance":
-        todos = sorted(todos, key=lambda x: x['importance'], reverse=True)
+        sorted_todos = sorted(todos, key=lambda x: x['importance'], reverse=True)
     elif sort_by == "urgency":
-        todos = sorted(todos, key=lambda x: x['urgency'], reverse=True)
+        sorted_todos = sorted(todos, key=lambda x: x['urgency'], reverse=True)
+    else:
+        sorted_todos = todos
 
-    return jsonify(todos)
+    return jsonify(sorted_todos)
 
 if __name__ == '__main__':
     app.run(debug=True)

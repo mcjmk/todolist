@@ -26,16 +26,26 @@ function sortTasks() {
     fetch(`/sort/${sortOption}`)
         .then(response => response.json())
         .then(sortedTasks => {
-            const tasksList = document.getElementById("tasks-list");
-            tasksList.innerHTML = ''; // Wyczyszczenie obecnej listy
+            const tableBody = document.querySelector("tbody");
+            tableBody.innerHTML = '';
 
             sortedTasks.forEach(task => {
-                const listItem = document.createElement("li");
-                listItem.className = task.completed ? 'completed' : '';
-                listItem.setAttribute('onclick', `toggleTask('${task.id}')`);
-                listItem.textContent = task.name;
-                tasksList.appendChild(listItem);
+                const row = document.createElement("tr");
+                row.id = `task-${task.id}`;
+                row.className = task.completed ? 'completed' : '';
+                row.setAttribute('onclick', `toggleTask('${task.id}')`);
+                row.innerHTML = `
+                    <td>${task.name}</td>
+                    <td>${task.importance}</td>
+                    <td>${task.urgency}</td>
+                    <td>${task.priority.toFixed(2)}</td>
+                    <td>${task.deadline}</td>
+                    <td>${task.estimated_time} godzin</td>
+                `;
+                tableBody.appendChild(row);
             });
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
