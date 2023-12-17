@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <title>TODO List</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <h1>This is a simple todo list</h1>
+     <form method="POST" action="/add">
+    <label>
+        Nazwa zadania:
+        <input type="text" name="task" required />
+    </label>
+    <label>
+        Ważność (1-10):
+        <input type="number" name="importance" min="1" max="10" required />
+    </label>
+    <label>
+        Pilność (1-10):
+        <input type="number" name="urgency" min="1" max="10" required />
+    </label>
+    <input type="submit" value="Dodaj zadanie" />
+    </form>
+    <select id="sort-option" onchange="sortTasks()">
+    <option value="name">Nazwa</option>
+    <option value="importance">Ważność</option>
+    <option value="urgency">Pilność</option>
+    </select>
+     <ol>
+        {% for task in todos %}
+        <li id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}" onclick="toggleTask('{{ task.id }}')">
+            {{ task['name'] }} - Ważność: {{ task['importance'] }}, Pilność: {{ task['urgency'] }}
+        </li>
+        {% endfor %}
+    </ol>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
