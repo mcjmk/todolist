@@ -29,12 +29,13 @@
     <option value="name">Nazwa</option>
     <option value="importance">Ważność</option>
     <option value="urgency">Pilność</option>
+    <option value="priority">Priorytet</option>
     </select>
         <ol>
             {% for task in todos %}
-            <li id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}" onclick="toggleTask('{{ task.id }}')">
-                {{ task['name'] }} - Ważność: {{ task['importance'] }}, Pilność: {{ task['urgency'] }}, Deadline: {{ task['deadline'] }}, Czas wykonania: {{ task['estimated_time'] }} godzin
-            </li>
+             <li id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}" onclick="toggleTask('{{ task.id }}')">
+             {{ task['name'] }} - Ważność: {{ task['importance'] }}, Pilność: {{ task['urgency'] }}, Priorytet: {{ task['priority'] | round(2) }}, Deadline: {{ task['deadline'] }}, Czas wykonania: {{ task['estimated_time'] }} godzin
+             </li>
             {% endfor %}
         </ol>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

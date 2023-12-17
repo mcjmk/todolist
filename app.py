@@ -24,18 +24,23 @@ def calculate_urgency(deadline):
         return 2
 
 
+def calculate_priority(importance, urgency, estimated_time):
+    return (importance + urgency) / estimated_time
+
+
 def create_task(name, importance, deadline, estimated_time):
     urgency = calculate_urgency(deadline)
+    priority = calculate_priority(int(importance), urgency, int(estimated_time))
     return {
         "id": str(uuid4()),
         "name": name,
         "completed": False,
         "importance": int(importance),
         "urgency": urgency,
+        "priority": priority,
         "deadline": deadline,
         "estimated_time": int(estimated_time)
     }
-
 
 todos = []
 
@@ -67,7 +72,10 @@ def toggle_task(task_id):
 @app.route('/sort/<sort_by>')
 def sort_tasks(sort_by):
     global todos
-    if sort_by == "name":
+
+    if sort_by == "priority":
+        todos.sort(key=lambda x: x['priority'], reverse=True)
+    elif sort_by == "name":
         todos = sorted(todos, key=lambda x: x['name'])
     elif sort_by == "importance":
         todos = sorted(todos, key=lambda x: x['importance'], reverse=True)
