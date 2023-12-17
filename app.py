@@ -1,17 +1,40 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from uuid import uuid4
+from datetime import datetime
 
 app = Flask(__name__)
 
-def create_task(name, importance=5, urgency=5):
+
+def calculate_urgency(deadline):
+    today = datetime.today().date()
+    deadline_date = datetime.strptime(deadline, '%Y-%m-%d').date()
+    days_to_deadline = (deadline_date - today).days
+
+    if days_to_deadline < 0:
+        return 10
+    elif days_to_deadline < 2:
+        return 9
+    elif days_to_deadline < 3:
+        return 8
+    elif days_to_deadline < 7:
+        return 6
+    elif days_to_deadline < 14:
+        return 4
+    else:
+        return 2
+
+
+def create_task(name, importance, deadline, estimated_time):
+    urgency = calculate_urgency(deadline)
     return {
         "id": str(uuid4()),
         "name": name,
         "completed": False,
         "importance": int(importance),
-        "urgency": int(urgency)
+        "urgency": urgency,
+        "deadline": deadline,
+        "estimated_time": int(estimated_time)
     }
-
 
 
 todos = []
@@ -23,9 +46,11 @@ def todo_list():
 @app.route('/add', methods=['POST'])
 def add_todo():
     task_name = request.form.get('task')
-    task_importance = request.form.get('importance', 5)  # Domyślna wartość to 5
-    task_urgency = request.form.get('urgency', 5)  # Domyślna wartość to 5
-    new_task = create_task(task_name, task_importance, task_urgency)
+    task_importance = request.form.get('importance', 5)
+    task_deadline = request.form.get('deadline')
+    task_estimated_time = request.form.get('estimated_time', 1)
+
+    new_task = create_task(task_name, task_importance, task_deadline, task_estimated_time)
     todos.append(new_task)
     todos.sort(key=lambda x: x['name'])
     return redirect(url_for('todo_list'))
