@@ -12,5 +12,5 @@ To get started with this project, follow these steps:
 ```bash
 git clone https://github.com/mcjmk/todolist.git
 cd todolist
-python apt.py
+python app.py
 ``` 
