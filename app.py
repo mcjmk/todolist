@@ -57,7 +57,7 @@ def add_todo():
 
     new_task = create_task(task_name, task_importance, task_deadline, task_estimated_time)
     todos.append(new_task)
-    todos.sort(key=lambda x: x['name'])
+    todos.sort(key=lambda x: x['priority'])
     return redirect(url_for('todo_list'))
 
 @app.route('/toggle/<task_id>', methods=['GET'])
