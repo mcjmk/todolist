@@ -1,9 +1,7 @@
 function toggleTask(taskId) {
-    // Wysyłanie żądania AJAX do serwera Flask
     fetch(`/toggle/${taskId}`)
         .then(response => {
             if (response.ok) {
-                // Wyświetlenie konfetti
                 confetti({
                     particleCount: 150,
                     spread: 180,
@@ -48,4 +46,22 @@ function sortTasks() {
         .catch(error => {
             console.error('Error:', error);
         });
+}
+
+function toggleBlock(taskId, blockIndex) {
+    const taskProgressBlocks = document.querySelectorAll(`.progress-blocks[data-task-id="${taskId}"] .progress-block`);
+    if (taskProgressBlocks[blockIndex]) {
+        taskProgressBlocks[blockIndex].classList.toggle('completed');
+    }
+    updateTaskProgress(taskId, blockIndex);
+}
+
+function updateTaskProgress(taskId, blockIndex) {
+
+    const taskProgress = JSON.parse(localStorage.getItem(`task-progress-${taskId}`)) || [];
+
+    if (blockIndex >= 0) {
+        taskProgress[blockIndex] = !taskProgress[blockIndex];
+    }
+    localStorage.setItem(`task-progress-${taskId}`, JSON.stringify(taskProgress));
 }

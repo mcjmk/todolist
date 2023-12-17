@@ -42,21 +42,30 @@
             <th>Priorytet</th>
             <th>Deadline</th>
             <th>Czas wykonania</th>
+            <th>Postęp</th>
         </tr>
     </thead>
     <tbody id="tasks-list">
         {% for task in todos %}
-            <tr id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}" onclick="toggleTask('{{ task.id }}')">
-                <td>{{ task['name'] }}</td>
-                <td>{{ task['importance'] }}</td>
-                <td>{{ task['urgency'] }}</td>
-                <td>{{ task['priority'] | round(2) }}</td>
-                <td>{{ task['deadline'] }}</td>
-                <td>{{ task['estimated_time'] }} godzin</td>
-            </tr>
+            <tr id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}">
+                <td onclick="toggleTask('{{ task.id }}')">{{ task['name'] }}</td>
+                <td onclick="toggleTask('{{ task.id }}')">{{ task['importance'] }}</td>
+                <td onclick="toggleTask('{{ task.id }}')">{{ task['urgency'] }}</td>
+                <td onclick="toggleTask('{{ task.id }}')">{{ task['priority'] | round(2) }}</td>
+                <td onclick="toggleTask('{{ task.id }}')">{{ task['deadline'] }}</td>
+                <td onclick="toggleTask('{{ task.id }}')">{{ task['estimated_time'] }} godzin</td>
+                <td>
+                    <div class="progress-blocks" data-task-id="{{ task.id }}">
+                 {% for i in range(task['estimated_time']) %}
+                   <span class="progress-block" onclick="toggleBlock('{{ task.id }}', {{ i }})"> </span>
+                 {% endfor %}
+                    </div></tr>
+                </td>
+                </tr>
         {% endfor %}
     </tbody>
 </table>
+
 </main>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 <footer>

@@ -7,7 +7,7 @@ main {
     margin-left: auto;
     margin-right: auto;
     padding: 20px;
-    max-width: 1200px; /* Maksymalna szerokość treści */
+    max-width: 1200px;
 }
 
 footer {
@@ -20,4 +20,21 @@ footer {
 .completed {
     text-decoration: line-through;
     text-decoration-thickness: 2px;
+}
+
+.progress-block {
+    display: inline-block;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* Zaznaczone kółko */
+.progress-block.completed {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
 }
