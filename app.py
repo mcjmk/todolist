@@ -5,23 +5,35 @@ from datetime import datetime
 app = Flask(__name__)
 
 
+URGENCY_THRESHOLD_DAYS = {
+    'immediate': 0,
+    'very_high': 2,
+    'high': 3,
+    'medium': 7,
+    'low': 14
+}
+URGENCY_SCORES = {
+    'immediate': 10,
+    'very_high': 9,
+    'high': 8,
+    'medium': 6,
+    'low': 4,
+    'none': 2
+}
+
+
 def calculate_urgency(deadline):
     today = datetime.today().date()
-    deadline_date = datetime.strptime(deadline, '%Y-%m-%d').date()
+    try:
+        deadline_date = datetime.strptime(deadline, '%Y-%m-%d').date()
+    except ValueError:
+        return URGENCY_SCORES['none']
+
     days_to_deadline = (deadline_date - today).days
 
-    if days_to_deadline < 0:
-        return 10
-    elif days_to_deadline < 2:
-        return 9
-    elif days_to_deadline < 3:
-        return 8
-    elif days_to_deadline < 7:
-        return 6
-    elif days_to_deadline < 14:
-        return 4
-    else:
-        return 2
+    for threshold, score in URGENCY_SCORES.items():
+        if days_to_deadline <= URGENCY_THRESHOLD_DAYS.get(threshold, float('inf')):
+            return score
 
 
 def calculate_priority(importance, urgency, estimated_time):
@@ -42,11 +54,14 @@ def create_task(name, importance, deadline, estimated_time):
         "estimated_time": int(estimated_time)
     }
 
+
 todos = []
+
 
 @app.route('/')
 def todo_list():
     return render_template('index.html', todos=todos)
+
 
 @app.route('/add', methods=['POST'])
 def add_todo():
@@ -60,6 +75,7 @@ def add_todo():
     todos.sort(key=lambda x: x['priority'])
     return redirect(url_for('todo_list'))
 
+
 @app.route('/toggle/<task_id>', methods=['GET'])
 def toggle_task(task_id):
     for task in todos:
@@ -71,20 +87,16 @@ def toggle_task(task_id):
 
 @app.route('/sort/<sort_by>')
 def sort_tasks(sort_by):
-    global todos
+    sort_key = {
+        "priority": lambda x: x['priority'],
+        "name": lambda x: x['name'],
+        "importance": lambda x: x['importance'],
+        "urgency": lambda x: x['urgency']
+    }.get(sort_by, lambda x: x['priority'])
 
-    if sort_by == "priority":
-        sorted_todos = sorted(todos, key=lambda x: x['priority'], reverse=True)
-    elif sort_by == "name":
-        sorted_todos = sorted(todos, key=lambda x: x['name'])
-    elif sort_by == "importance":
-        sorted_todos = sorted(todos, key=lambda x: x['importance'], reverse=True)
-    elif sort_by == "urgency":
-        sorted_todos = sorted(todos, key=lambda x: x['urgency'], reverse=True)
-    else:
-        sorted_todos = todos
+    todos.sort(key=sort_key, reverse=sort_by != "name")
+    return jsonify(todos)
 
-    return jsonify(sorted_todos)
 
 if __name__ == '__main__':
     app.run(debug=True)
