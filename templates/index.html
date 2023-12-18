@@ -3,73 +3,63 @@
 <head>
     <title>TODO List</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-<main>
-    <h1>This is a simple todo list</h1>
-    <form method="POST" action="/add">
-    <label>
-        Nazwa zadania:
-        <input type="text" name="task" required />
-    </label>
-    <label>
-        Ważność (1-10):
-        <input type="number" name="importance" min="1" max="10" required />
-    </label>
-        Deadline (RRRR-MM-DD):
-        <input type="date" name="deadline" required />
-    </label>
-    <label>
-        Przewidywany czas wykonania (1-15 godzin):
-        <input type="number" name="estimated_time" min="1" max="15" required />
-    </label>
-    <input type="submit" value="Dodaj zadanie" />
-    </form>
-    <select id="sort-option">
-    <option value="priority">Priorytet</option>
-    <option value="name">Nazwa</option>
-    <option value="importance">Ważność</option>
-    <option value="urgency">Pilność</option>
-    </select>
-    <button onclick="sortTasks()">Sortuj</button>
-    <table>
-    <thead>
-        <tr>
-            <th>Zadanie</th>
-            <th>Ważność</th>
-            <th>Pilność</th>
-            <th>Priorytet</th>
-            <th>Deadline</th>
-            <th>Czas wykonania</th>
-            <th>Postęp</th>
-        </tr>
-    </thead>
-    <tbody id="tasks-list">
-        {% for task in todos %}
-            <tr id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}">
-                <td onclick="toggleTask('{{ task.id }}')">{{ task['name'] }}</td>
-                <td onclick="toggleTask('{{ task.id }}')">{{ task['importance'] }}</td>
-                <td onclick="toggleTask('{{ task.id }}')">{{ task['urgency'] }}</td>
-                <td onclick="toggleTask('{{ task.id }}')">{{ task['priority'] | round(2) }}</td>
-                <td onclick="toggleTask('{{ task.id }}')">{{ task['deadline'] }}</td>
-                <td onclick="toggleTask('{{ task.id }}')">{{ task['estimated_time'] }} godzin</td>
-                <td>
-                    <div class="progress-blocks" data-task-id="{{ task.id }}">
-                 {% for i in range(task['estimated_time']) %}
-                   <span class="progress-block" onclick="toggleBlock('{{ task.id }}', {{ i }})"> </span>
-                 {% endfor %}
-                    </div></tr>
-                </td>
-                </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <main>
+        <h1>This is a simple todo list</h1>
+        <form method="POST" action="/add">
+            <label> Nazwa zadania: <input type="text" name="task" required/> </label>
+            <label> Ważność (1-10): <input type="number" name="importance" min="1" max="10" required /> </label>
+            <label> Deadline (DD-MM-YYYY): <input type="date" name="deadline" required /> </label>
+            <label> Przewidywany czas wykonania (1-15 godzin): <input type="number" name="estimated_time" min="1" max="15" required /> </label>
+            <input type="submit" value="Dodaj zadanie" />
+        </form>
+        <select id="sort-option">
+            <option value="priority">Priorytet</option>
+            <option value="name">Nazwa</option>
+            <option value="importance">Ważność</option>
+            <option value="urgency">Pilność</option>
+        </select>
+        <button onclick="sortTasks()">Sortuj</button>
 
-</main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Zadanie</th>
+                    <th>Ważność</th>
+                    <th>Pilność</th>
+                    <th>Priorytet</th>
+                    <th>Deadline</th>
+                    <th>Czas wykonania</th>
+                    <th>Postęp</th>
+                </tr>
+            </thead>
+
+            <tbody id="tasks-list">
+                {% for task in todos %}
+                <tr id="task-{{ task.id }}" class="{{ 'completed' if task.completed else '' }}">
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['name'] }}</td>
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['importance'] }}</td>
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['urgency'] }}</td>
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['priority'] | round(2) }}</td>
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['deadline'] }}</td>
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['estimated_time'] }} godzin</td>
+                    <td>
+                        <div class="progress-blocks" data-task-id="{{ task.id }}">
+                            {% for i in range(task['estimated_time']) %}
+                            <span class="progress-block" onclick="toggleBlock('{{ task.id }}', {{ i }})"> </span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p> made by mcjmk</p>
+    </footer>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<footer>
-    <p> made by mcjmk</p>
-</footer>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </body>
 </html>

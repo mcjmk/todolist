@@ -32,7 +32,6 @@ footer {
     margin-right: 5px;
 }
 
-/* Zaznaczone kółko */
 .progress-block.completed {
     background-color: #000;
     border-color: #000;
