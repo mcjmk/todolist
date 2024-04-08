@@ -2,9 +2,9 @@
 A simple to-do list application designed to help you easily determine which tasks require your immediate attention.
 
 ## Features
-- Add tasks: Create new tasks with a few simple clicks.
-- Sort tasks: Organize your tasks by priority, urgency, or importance.
-- Mark progress: Keep track of your progress on individual tasks.
+- **Add tasks**: Create new tasks with a few simple clicks.
+- **Sort tasks**: Organize your tasks by priority, urgency, or importance.
+- **Mark progress**: Keep track of your progress on individual tasks.
 
 
 ## Installation:
