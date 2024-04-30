@@ -3,15 +3,13 @@ function toggleTask(taskId) {
         .then(response => {
             if (response.ok) {
                 confetti({
-                    particleCount: 150,
-                    spread: 180,
+                    particleCount: 180,
+                    spread: 200,
                     startVelocity: 60,
                     gravity: 1.2,
                     origin: { x: 0.5, y: 0.1 },
                     zIndex: 9999
                 });
-
-                // Zaktualizowanie wyglądu zadania
                 document.getElementById(`task-${taskId}`).classList.toggle('completed');
             }
         })
@@ -20,14 +18,12 @@ function toggleTask(taskId) {
 
 function sortTasks() {
     const sortOption = document.getElementById("sort-option").value;
-
     fetch(`/sort/${sortOption}`)
         .then(response => response.json())
         .then(sortedTasks => {
             const tableBody = document.querySelector("tbody");
             tableBody.innerHTML = '';
-
-               sortedTasks.forEach(task => {
+            sortedTasks.forEach(task => {
                 const row = document.createElement("tr");
                 row.id = `task-${task.id}`;
                 row.className = task.completed ? 'completed' : '';
@@ -90,11 +86,9 @@ function renderTaskProgress() {
 function generateProgressBlocksHTML(estimatedTime, taskId) {
     const taskProgress = JSON.parse(localStorage.getItem(`task-progress-${taskId}`)) || [];
     let blocksHTML = '';
-
     for (let i = 0; i < estimatedTime; i++) {
         const completedClass = taskProgress[i] ? 'completed' : '';
         blocksHTML += `<span class="progress-block ${completedClass}" onclick="toggleBlock('${taskId}', ${i})"></span>`;
     }
-
     return blocksHTML;
 }

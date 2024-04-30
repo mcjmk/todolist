@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from uuid import uuid4
 from datetime import datetime
-
 app = Flask(__name__)
-
 
 URGENCY_THRESHOLD_DAYS = {
     'immediate': 0,
@@ -12,6 +10,7 @@ URGENCY_THRESHOLD_DAYS = {
     'medium': 7,
     'low': 14
 }
+
 URGENCY_SCORES = {
     'immediate': 10,
     'very_high': 9,
@@ -93,7 +92,6 @@ def sort_tasks(sort_by):
         "importance": lambda x: x['importance'],
         "urgency": lambda x: x['urgency']
     }.get(sort_by, lambda x: x['priority'])
-
     todos.sort(key=sort_key, reverse=sort_by != "name")
     return jsonify(todos)
 
