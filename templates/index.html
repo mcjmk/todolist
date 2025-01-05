@@ -6,32 +6,32 @@
 </head>
 <body>
     <main>
-        <h1>This is a simple todo list</h1>
+        <h1>Todo today</h1>
         <form method="POST" action="/add">
-            <label> Nazwa zadania: <input type="text" name="task" required/> </label>
-            <label> Ważność (1-10): <input type="number" name="importance" min="1" max="10" required /> </label>
+            <label> Task: <input type="text" name="task" required/> </label>
+            <label> Importance (1-10): <input type="number" name="importance" min="1" max="10" required /> </label>
             <label> Deadline (DD-MM-YYYY): <input type="date" name="deadline" required /> </label>
-            <label> Przewidywany czas wykonania (1-15 godzin): <input type="number" name="estimated_time" min="1" max="15" required /> </label>
-            <input type="submit" value="Dodaj zadanie" />
+            <label> Estimated time (in pomodoros): <input type="number" name="estimated_time" min="1" max="15" required /> </label>
+            <input type="submit" value="Add task" />
         </form>
         <select id="sort-option">
-            <option value="priority">Priorytet</option>
-            <option value="name">Nazwa</option>
-            <option value="importance">Ważność</option>
-            <option value="urgency">Pilność</option>
+            <option value="priority">Priority</option>
+            <option value="name">Name</option>
+            <option value="importance">Importance</option>
+            <option value="urgency">Urgency</option>
         </select>
-        <button onclick="sortTasks()">Sortuj</button>
+        <button onclick="sortTasks()">Sort</button>
 
         <table>
             <thead>
                 <tr>
-                    <th>Zadanie</th>
-                    <th>Ważność</th>
-                    <th>Pilność</th>
-                    <th>Priorytet</th>
+                    <th>Task</th>
+                    <th>Importance</th>
+                    <th>Urgency</th>
+                    <th>Priority</th>
                     <th>Deadline</th>
-                    <th>Czas wykonania</th>
-                    <th>Postęp</th>
+                    <th>Estimated time</th>
+                    <th>Progress</th>
                 </tr>
             </thead>
 
@@ -43,7 +43,7 @@
                     <td onclick="toggleTask('{{ task.id }}')">{{ task['urgency'] }}</td>
                     <td onclick="toggleTask('{{ task.id }}')">{{ task['priority'] | round(2) }}</td>
                     <td onclick="toggleTask('{{ task.id }}')">{{ task['deadline'] }}</td>
-                    <td onclick="toggleTask('{{ task.id }}')">{{ task['estimated_time'] }} godzin</td>
+                    <td onclick="toggleTask('{{ task.id }}')">{{ task['estimated_time'] }}</td>
                     <td>
                         <div class="progress-blocks" data-task-id="{{ task.id }}">
                             {% for i in range(task['estimated_time']) %}
