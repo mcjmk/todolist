@@ -7,12 +7,16 @@ A simple to-do list built with Flask and JavaScript designed to help you decide 
 - **Mark progress**: Keep track of your progress on tasks.
 
 ## Installation:
-To get started with this project, follow these steps:
+Follow this steps in console:
 ```bash
 git clone https://github.com/mcjmk/todolist.git
 cd todolist
+python -m venv env
+env\Scripts\activate
+pip install -r requirements.txt
 python app.py
 ``` 
-Go to http://127.0.0.1:5000/ where the server will be running
+Go to http://127.0.0.1:5000/
+Enjoy!
 
 ![img_1.png](img_1.png)
